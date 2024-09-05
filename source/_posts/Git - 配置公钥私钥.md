@@ -1,5 +1,11 @@
 ---
 title: Git - 配置公钥私钥
+date: 2024-03-7 10:23:51
+categories:
+  - 技术
+  tags:
+  - Git
+  - 公钥私钥
 ---
 -   [before](https://www.cnblogs.com/bubu99/articles/17924054.html#before)
 -   [方案一，明文添加用户名和密码(不推荐)](https://www.cnblogs.com/bubu99/articles/17924054.html#%E6%96%B9%E6%A1%88%E4%B8%80%E6%98%8E%E6%96%87%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E4%B8%8D%E6%8E%A8%E8%8D%90)

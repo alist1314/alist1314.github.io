@@ -1,5 +1,11 @@
 ---
 title: 将网页转换为 Markdown
+date: 2024-02-23 08:23:51
+categories:
+  - 软件
+  tags:
+  - 工具
+  - 插件
 ---
 3 个工具，将网页转换为 Markdown：安卓、Edge、Chrome、Firefox、Obsidian、Safari
 
