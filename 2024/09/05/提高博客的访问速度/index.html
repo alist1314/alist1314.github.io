@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度 | 我的天空</title><meta name="author" content="Skyboy"><meta name="copyright" content="Skyboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。 大佬的教程：https:&#x2F;&#x2F;blog.grin.cool&#x2F;blog&#x2F;Hexo-blog#&#x2F; 注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户 食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进 食">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度">
+<meta property="og:url" content="http://example.com/2024/09/05/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="我的天空">
+<meta property="og:description" content="今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。 大佬的教程：https:&#x2F;&#x2F;blog.grin.cool&#x2F;blog&#x2F;Hexo-blog#&#x2F; 注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户 食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进 食">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2024-09-04T23:57:11.996Z">
+<meta property="article:modified_time" content="2024-09-04T23:57:12.670Z">
+<meta property="article:author" content="Skyboy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/09/05/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-09-05 07:57:12'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="我的天空"><span class="site-name">我的天空</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-04T23:57:11.996Z" title="发表于 2024-09-05 07:57:11">2024-09-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-04T23:57:12.670Z" title="更新于 2024-09-05 07:57:12">2024-09-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><p>今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。</p>
+<p>大佬的教程：<a target="_blank" rel="noopener" href="https://blog.grin.cool/blog/Hexo-blog#/">https://blog.grin.cool/blog/Hexo-blog#/</a></p>
+<p>注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户</p>
+<p>食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进</p>
+<p>食用本教程请确保</p>
+<p>使用过 Hexo 等博客框架，略微了解使用方法<br>了解 GitHub，Git 的一些基本操作<br>了解 《提问的智慧》 以及 《如何像一个弱智一样提问》<br>在没有错误日志下诊断问题无异于闭眼开车<br>首先，本教程相对于 GitHub pages 的优势</p>
+<p>本方法不再局限于只有一个仓库可以生成静态页面<br>国内访问速度飞快<br>每月有 100G 流量带宽额度，300 分钟的构建时间，对于个人博客记录来讲完全够用甚至还余下很多<br>静态页面生成速度高于 GitHub pages 至少一倍<br>Netlify 可以启用免费的 TLS 证书,启用 HTTPS</p>
+<p>用久了 GitHub pages 发现，在国内的访问速度确实是有点慢，这是因为 GitHub pages 的服务器是在国外，所以在国内访问慢是正常的</p>
+<p>这个方法 不需要云服务器，不需要备案，全部免费</p>
+<p>也是看到了某大佬的博客才用这种方法 0 成本（时间成本不计入）提高博客访问速度</p>
+<p>需要注意的是，本方法与原先的 GitHub pages 部署方法并不同</p>
+<p>GitHub pages 是本地编译然后把编译好的前端页面推送到 GitHub repo</p>
+<p>这里采用的改进方法是直接把 Hexo 源码推送到 GitHub repo，用 Netlify 进行自动编译</p>
+<p>这里的好处就是</p>
+<p>不占用原来的 github.io 域名，也就是说这两个可以共存<br>源码直接在 GitHub repo 仓库里，不用担心数据丢失<br>如果换了电脑，可以直接从 GitHub 拉取源码在进行操作<br>废话不多说直接开始操作</p>
+<p>准备魔法工具（如已有可绕过）<br>工具介绍<br>这些你都不需要记，看看就行</p>
+<p>虚拟专用网络(Virtual Private Network，VPN)是专用网络的延伸，它包含了类似 Internet 的共享或公共网络链接。通过 VPN 可以以模拟点对点专用链接的方式通过共享或公共网络在两台计算机之间发送数据。</p>
+<p>如果说得再通俗一点，VPN 实际上是 “线路中的线路”，类型于城市大道上的 “公交专用线”，所不同的是，由 VPN 组成的 “线路” 并不是物理存在的，而是通过技术手段模拟出来，即是 “虚拟” 的。不过，这种虚拟的专用网络技术却可以在一条公用线路中为两台计算机建立一个逻辑上的专用 “通道”，它具有良好的保密和不受干扰性，使双方能进行自由而安全的点对点连接，因此被网络管理员们非常广泛地关注着。</p>
+<p>通过虚拟专用网，我们在家就可以轻松安全的登录到公司的内部网络上，这样可以实现我们在家办公的梦想了。</p>
+<p>账号注册<br>有了这个工具，你不只是能进 ai，还可以高速浏览 GitHub 等网站，以及…</p>
+<p>点击下方任意链接跳转注册界面 ↓（有进不去的换一个）</p>
+<p>链接 1          链接 2             链接 3          链接 4          链接 5         链接 6          链接 7</p>
+<p>输入邮箱密码注册账号，注册完成后登陆</p>
+<p>然后点击左侧购买订阅</p>
+<p>根据需求选择你合适的方案，如果你只是想尝鲜的话，毫无疑问，选最便宜的，能用就行</p>
+<p>我本人用的是 38.8 巨量不限时，推荐这个 ，大约可以用 2 年左右，平均下来大约 0.6&#x2F;天，而且是实打实的买多少用多少，不会出现超时浪费</p>
+<p>买完之后点击左上方仪表盘可以看到你的已订阅</p>
+<p>然后点击仪表盘下方的使用文档</p>
+<p>选择你的系统安装客户端</p>
+<p>安装完之后登陆客户端就可以看到这样</p>
+<p>连接节点<br>目前为止已经基本结束了，点击连接，点进去选个绿色的节点，点全局， 如果后续出现连接失败就换个节点</p>
+<p>GitHub 操作<br>首先进入 GitHub 建立一个空仓库</p>
+<p>这里仓库名随便写就行，不再被 github.io 限制</p>
+<p>我这里以 blog-Netlify-anzhiyu 为例，公有私有都行，你不想公开源码的话就私有</p>
+<p>直接 git clone 刚刚那个 repo</p>
+<p>PLAINTEXT<br>1<br>git clone 你的仓库地址<br>然后在目录下初始化 Hexo，由于不是新手向教程，这里不过多赘述</p>
+<p>有关于 Hexo 的安装可以看这位大佬的博客 <a target="_blank" rel="noopener" href="https://akilar.top/posts/6ef63e2d/#/">https://akilar.top/posts/6ef63e2d/#/</a></p>
+<p>初始化完成之后，安装你想安装的 Hexo 主题，我这里以 anzhiyu 主题为例</p>
+<p>下面是可供参考的 shell 脚本 一键安装 anzhiyu 主题.sh</p>
+<p>SHELL<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>printf “\033[32mINFO \033[0m 正在安装主题…\n”<br>npm install Hexo-theme-anzhiyu<br>printf “\033[32mINFO \033[0m 主题安装完成\n”</p>
+<p>printf “\033[32mINFO \033[0m 正在安装依赖…\n”<br>npm install Hexo-renderer-pug Hexo-renderer-stylus –save<br>printf “\033[32mINFO \033[0m 依赖安装完成\n”</p>
+<p>printf “\033[32mINFO \033[0m 正在停顿10s可供查看情况！无异常可Ctrl+C退出\n”<br>sleep 10s<br>主题安装完成后别忘了在你的_config.yml 文件里改掉主题，并且复制主题配置到博客根目录</p>
+<p>_config.anzhiyu.yml<br>_config.yml</p>
+<p>就是这俩文件</p>
+<p>然后改一下 package.json 里面 script 的内容，涉及到后面的参数填写</p>
+<p>PLAINTEXT<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>&#x2F;&#x2F; package.json<br>“scripts”: {<br>“build”: “Hexo generate”,<br>“clean”: “Hexo clean”,<br>“server”: “Hexo server”,<br>“netlify”: “npm run clean &amp;&amp; npm run build”<br>}<br>然后就可以推送到仓库了</p>
+<p>PLAINTEXT<br>1<br>2<br>3<br>git add .<br>git commit -m “deploy from Hexo-admin”<br>git push<br>可以用 Hexo 命令在本地部署一下看看有没有 bug</p>
+<p>SHELL<br>1<br>2<br>3<br>Hexo clean<br>Hexo generate<br>Hexo s<br>刷新一下看看有没有推送上去</p>
+<p>至此 GitHub 上的操作就告一段落了，继续往下走</p>
+<p>Netlify 操作<br>来到 Netlify 官网</p>
+<p>直接以 GitHub 注册便于导入仓库，然后点击继续，等待重定向</p>
+<p>然后点击左侧的 site，再点击 new site</p>
+<p>然后点击 Import an existing project</p>
+<p>然后 Deploywith GitHub</p>
+<p>然后找到刚刚创建的 repo</p>
+<p>配置就按照我这个来写，注意分支，如果你是 master 填 master，如果你是 main 就填 main</p>
+<p>然后点击 deploy</p>
+<p>创建完成之后就可以访问了</p>
+<p>如果空白或者是啥也没有，请检查主题配置，一般是主题配置问题</p>
+<p>点击左侧的 domain 可以配置域名</p>
+<p>点击 add 可以添加自己的域名，点击右侧红框里可以自定义 Netlify 里的子域名</p>
+<p>配置域名以及 cloudflare 的 DNS 配置<br>从第四步开始就需要域名了，没有自己私人域名的可以不用看了</p>
+<p>这里以阿里云域名控制台为例</p>
+<p>首先进控制台 CNAME 指向 Netlify 的域名</p>
+<p>然后进入 cloudflare 官网</p>
+<p>添加站点，把你自己的域名填上，注意不要带 www.，填纯域名</p>
+<p>比如 <a target="_blank" rel="noopener" href="http://www.w1ndys.top/">www.w1ndys.top</a> 只填 w1ndys.top 就可以</p>
+<p>填写之后会看到让你改 DNS 服务器，我这里已经改过了</p>
+<p>这里就去控制台把域名的 DNS 服务器改掉就可以了</p>
+<p>修改之后会等待一段时间审查，一般十分钟左右，但不会超过 24 小时</p>
+<p>审核完之后如图</p>
+<p>然后我们进入到 DNS 记录</p>
+<p>这里就根据你自己的域名，改成形如我这样的就可以了</p>
+<p>到这里已经结束了。</p>
+<p>等待一段时间，访问你自己的域名试试</p>
+<p>作者: W1ndys<br>链接: <a target="_blank" rel="noopener" href="https://blog.w1ndys.top/posts/cb064b79.html#%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E4%BB%A5%E5%8F%8A-cloudflare-%E7%9A%84-dns-%E9%85%8D%E7%BD%AE">https://blog.w1ndys.top/posts/cb064b79.html#%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E4%BB%A5%E5%8F%8A-cloudflare-%E7%9A%84-dns-%E9%85%8D%E7%BD%AE</a><br>来源: W1ndysの小屋<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Skyboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/09/05/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/">http://example.com/2024/09/05/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">我的天空</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/05/%E5%85%A8%E7%90%83%E5%B8%82%E5%9C%BA%E9%A3%8E%E6%9A%B4%E5%86%8D%E8%B5%B7/" title=" 全球市场风暴再起，历史性时刻逼近"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"> 全球市场风暴再起，历史性时刻逼近</div></div></a></div><div class="next-post pull-right"><a href="/2024/08/28/%E6%97%A5%E6%9C%AC%E5%A4%AE%E8%A1%8C%E5%89%AF%E8%A1%8C%E9%95%BF%E5%86%8D%E5%BA%A6%E6%94%BE%E9%B9%B0/" title="日本央行副行长再度放鹰：只要通胀符合预期就会加息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">日本央行副行长再度放鹰：只要通胀符合预期就会加息</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC82MDExNS8zNjU4MQ=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Skyboy</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/10/%E8%BF%913500%E4%BA%BF%E5%85%83%E5%AE%BD%E5%9F%BAETF%E6%8C%81%E7%BB%AD%E5%90%B8%E9%87%914%E5%8F%AA%E6%B2%AA%E6%B7%B1300ETF%E8%B7%BB%E8%BA%AB%E5%8D%83%E4%BA%BF%E4%BF%B1%E4%B9%90%E9%83%A8/" title="近3500亿元！宽基ETF持续吸金，4只沪深300ETF跻身千亿俱乐部">近3500亿元！宽基ETF持续吸金，4只沪深300ETF跻身千亿俱乐部</a><time datetime="2024-09-10T10:27:20.035Z" title="发表于 2024-09-10 18:27:20">2024-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/10/%E5%9B%BD%E5%AE%B6%E5%A4%A7%E5%9F%BA%E9%87%91%E5%87%BA%E6%89%8B%E4%B9%B0%E4%BA%86%E8%BF%99%E4%BA%9B%E8%82%A1/" title="国家大基金出手买了这些股！AI “超级牛股”将在这个细分领域产生?">国家大基金出手买了这些股！AI “超级牛股”将在这个细分领域产生?</a><time datetime="2024-09-10T10:27:19.345Z" title="发表于 2024-09-10 18:27:19">2024-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/10/%E5%88%9B%E5%8E%86%E5%8F%B2%E6%96%B0%E9%AB%98/" title="创历史新高，A股万亿油气巨头涨近7%！沙特、俄罗斯、阿联酋等官宣大消息">创历史新高，A股万亿油气巨头涨近7%！沙特、俄罗斯、阿联酋等官宣大消息</a><time datetime="2024-09-10T10:27:19.343Z" title="发表于 2024-09-10 18:27:19">2024-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/10/Typora%E4%B8%AD%E6%96%87%E5%85%8D%E8%B4%B9%E7%89%88%E4%B8%8B%E8%BD%BD/" title="Typora中文免费版下载">Typora中文免费版下载</a><time datetime="2024-09-10T10:27:19.338Z" title="发表于 2024-09-10 18:27:19">2024-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/09/05/%E5%85%A8%E7%90%83%E5%B8%82%E5%9C%BA%E9%A3%8E%E6%9A%B4%E5%86%8D%E8%B5%B7/" title=" 全球市场风暴再起，历史性时刻逼近"> 全球市场风暴再起，历史性时刻逼近</a><time datetime="2024-09-05T00:22:10.154Z" title="发表于 2024-09-05 08:22:10">2024-09-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Skyboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
+  const loadLivere = () => {
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
