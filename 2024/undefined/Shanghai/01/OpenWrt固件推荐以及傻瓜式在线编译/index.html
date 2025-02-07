@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog1314.us.kg","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="OpenWrt固件，肯定自己编译的好，但是我懒也不会啊。。。推荐几个自己常关注的，不定时更新。 -1：lean：https:&#x2F;&#x2F;github.com&#x2F;coolsnowwolf&#x2F;lede大雕就不介绍了，仓库有x64固件和最近折腾的rk3568固件（r5s、r68k、r68s、h68k等小机机） 0、iStoreOS：https:&#x2F;&#x2F;fw.koolcenter.com&#x2F;iStoreOS&#x2F; 1、骷髅头：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenWrt固件推荐以及傻瓜式在线编译">
+<meta property="og:url" content="https://blog1314.us.kg/2024/undefined/Shanghai/01/OpenWrt%E5%9B%BA%E4%BB%B6%E6%8E%A8%E8%8D%90%E4%BB%A5%E5%8F%8A%E5%82%BB%E7%93%9C%E5%BC%8F%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91/index.html">
+<meta property="og:site_name" content="我的天空">
+<meta property="og:description" content="OpenWrt固件，肯定自己编译的好，但是我懒也不会啊。。。推荐几个自己常关注的，不定时更新。 -1：lean：https:&#x2F;&#x2F;github.com&#x2F;coolsnowwolf&#x2F;lede大雕就不介绍了，仓库有x64固件和最近折腾的rk3568固件（r5s、r68k、r68s、h68k等小机机） 0、iStoreOS：https:&#x2F;&#x2F;fw.koolcenter.com&#x2F;iStoreOS&#x2F; 1、骷髅头：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imnks.com/2022/08/750415413.png!I">
+<meta property="og:image" content="https://imnks.com/usr/themes/spimes/owo/img/paopao/E78EABE791B0_2x.png">
+<meta property="og:image" content="https://i.imnks.com/2022/08/3570652693.png!I">
+<meta property="og:image" content="https://i.imnks.com/2022/08/2651532623.png!I">
+<meta property="og:image" content="https://i.imnks.com/2022/08/3688322758.png!I">
+<meta property="article:published_time" content="2024-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-08-11T16:41:20.099Z">
+<meta property="article:author" content="Skyboy">
+<meta property="article:tag" content="OpenWrt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imnks.com/2022/08/750415413.png!I">
+
+<link rel="canonical" href="https://blog1314.us.kg/2024/undefined/Shanghai/01/OpenWrt%E5%9B%BA%E4%BB%B6%E6%8E%A8%E8%8D%90%E4%BB%A5%E5%8F%8A%E5%82%BB%E7%93%9C%E5%BC%8F%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OpenWrt固件推荐以及傻瓜式在线编译 | 我的天空</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我的天空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我心飞翔</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog1314.us.kg/2024/undefined/Shanghai/01/OpenWrt%E5%9B%BA%E4%BB%B6%E6%8E%A8%E8%8D%90%E4%BB%A5%E5%8F%8A%E5%82%BB%E7%93%9C%E5%BC%8F%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Skyboy">
+      <meta itemprop="description" content="我的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的天空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenWrt固件推荐以及傻瓜式在线编译
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2024-04-02T00:00:00+08:00">2024-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-08-12 00:41:20" itemprop="dateModified" datetime="2024-08-12T00:41:20+08:00">2024-08-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>OpenWrt固件，肯定自己编译的好，但是我懒也不会啊。。。推荐几个自己常关注的，不定时更新。</p>
+<h2 id="1：lean：https-github-com-coolsnowwolf-lede"><a href="#1：lean：https-github-com-coolsnowwolf-lede" class="headerlink" title="-1：lean：https://github.com/coolsnowwolf/lede"></a>-1：lean：<a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede">https://github.com/coolsnowwolf/lede</a></h2><p>大雕就不介绍了，仓库有x64固件和最近折腾的rk3568固件（r5s、r68k、r68s、h68k等小机机）</p>
+<h2 id="0、iStoreOS：https-fw-koolcenter-com-iStoreOS"><a href="#0、iStoreOS：https-fw-koolcenter-com-iStoreOS" class="headerlink" title="0、iStoreOS：https://fw.koolcenter.com/iStoreOS/"></a>0、iStoreOS：<a target="_blank" rel="noopener" href="https://fw.koolcenter.com/iStoreOS/">https://fw.koolcenter.com/iStoreOS/</a></h2><p><img src="https://i.imnks.com/2022/08/750415413.png!I" alt="750415413.png" title="750415413.png"></p>
+<h2 id="1、骷髅头：https-github-com-DHDAXCW"><a href="#1、骷髅头：https-github-com-DHDAXCW" class="headerlink" title="1、骷髅头：https://github.com/DHDAXCW"></a>1、骷髅头：<a target="_blank" rel="noopener" href="https://github.com/DHDAXCW">https://github.com/DHDAXCW</a></h2><p>支持：x86_x64（推荐） NanoPi-R4S-R4SE NanoPi-R2S NanoPi-R2C-Plus</p>
+<h2 id="2、XiaoWanSM：https-pan-wwang-pw"><a href="#2、XiaoWanSM：https-pan-wwang-pw" class="headerlink" title="2、XiaoWanSM：https://pan.wwang.pw/"></a>2、XiaoWanSM：<a target="_blank" rel="noopener" href="https://pan.wwang.pw/">https://pan.wwang.pw/</a></h2><p>支持：x86_64、NanoPi、小米、竞斗云（一直用这个）、华硕、极路由、网件等等</p>
+<h2 id="3、X-Wrt：https-downloads-x-wrt-com-rom"><a href="#3、X-Wrt：https-downloads-x-wrt-com-rom" class="headerlink" title="3、X-Wrt：https://downloads.x-wrt.com/rom/"></a>3、X-Wrt：<a target="_blank" rel="noopener" href="https://downloads.x-wrt.com/rom/">https://downloads.x-wrt.com/rom/</a></h2><p>支持：很多。。。很有名的作者</p>
+<h2 id="4、SuLingGG：https-openwrt-cc-releases-targets"><a href="#4、SuLingGG：https-openwrt-cc-releases-targets" class="headerlink" title="4、SuLingGG：https://openwrt.cc/releases/targets/"></a>4、SuLingGG：<a target="_blank" rel="noopener" href="https://openwrt.cc/releases/targets/">https://openwrt.cc/releases/targets/</a></h2><p>支持：x86_64、树莓派，应该是最早做树莓派固件的大佬</p>
+<h2 id="5、Snail：http-bbs-anmpserver-com"><a href="#5、Snail：http-bbs-anmpserver-com" class="headerlink" title="5、Snail：http://bbs.anmpserver.com/"></a>5、Snail：<a target="_blank" rel="noopener" href="http://bbs.anmpserver.com/">http://bbs.anmpserver.com/</a></h2><p>收费固件，自建的iStore很不错，就是QQ群聊YYNJ</p>
+<h2 id="6、OpenWrt固件下载与在线定制编译：https-supes-top"><a href="#6、OpenWrt固件下载与在线定制编译：https-supes-top" class="headerlink" title="6、OpenWrt固件下载与在线定制编译：https://supes.top/"></a>6、OpenWrt固件下载与在线定制编译：<a target="_blank" rel="noopener" href="https://supes.top/">https://supes.top/</a></h2><p>自定义添加软件包和修改部分系统参数，捐赠可以移除外链等（好用建议捐赠），支持的机型琳琅满目<img src="https://imnks.com/usr/themes/spimes/owo/img/paopao/E78EABE791B0_2x.png"></p>
+<p><img src="https://i.imnks.com/2022/08/3570652693.png!I" alt="3570652693.png" title="3570652693.png"></p>
+<p><img src="https://i.imnks.com/2022/08/2651532623.png!I" alt="2651532623.png" title="2651532623.png"></p>
+<p><img src="https://i.imnks.com/2022/08/3688322758.png!I" alt="3688322758.png" title="3688322758.png"></p>
+<h2 id="7、esirPG：https-drive-google-com-drive-folders-1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh"><a href="#7、esirPG：https-drive-google-com-drive-folders-1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh" class="headerlink" title="7、esirPG：https://drive.google.com/drive/folders/1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh"></a>7、esirPG：<a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh">https://drive.google.com/drive/folders/1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh</a></h2><h2 id="8、haiibo：https-github-com-haiibo-OpenWrt"><a href="#8、haiibo：https-github-com-haiibo-OpenWrt" class="headerlink" title="8、haiibo：https://github.com/haiibo/OpenWrt"></a>8、haiibo：<a target="_blank" rel="noopener" href="https://github.com/haiibo/OpenWrt">https://github.com/haiibo/OpenWrt</a></h2><p>提供适配于 ARMv8 电视盒子、Rockchip 平台、树莓派以及 X86 平台设备的 OpenWrt 固件</p>
+<p>固件特色：<br>固件每天定时自动编译，以确保获得最新体验<br>集成部分常用有线、无线、3G &#x2F; 4G 网卡驱动<br>集成中文版 netdata 实时监控插件，小白也能轻松看懂系统概况<br>集成 iStore 应用商店，可根据自己需求自由安装所需插件<br>集成 Docker 服务，可在 OpenWrt 内自由部署 Docker 应用<br>集成应用过滤插件，支持游戏、视频、聊天、下载等 APP 过滤<br>集成在线用户插件，可查看所有在线用户 IP 地址与实时速率等<br>ARMv8 系列固件内置晶晨宝盒，支持在线更新固件及内核等</p>
+<p>原文转载<a target="_blank" rel="noopener" href="https://imnks.com/6380.html">https://imnks.com/6380.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OpenWrt/" rel="tag"># OpenWrt</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/01/%E8%BF%9B%E9%98%B6%E6%95%99%E7%A8%8B%E4%B9%8B%20OpenWrt%20%E5%B8%B8%E7%94%A8%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" rel="prev" title="进阶教程之 OpenWrt 常用网络配置指南">
+      <i class="fa fa-chevron-left"></i> 进阶教程之 OpenWrt 常用网络配置指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/18/%E5%A8%83%E5%93%88%E5%93%88%E7%AA%81%E5%8F%91%EF%BC%81%E5%AE%97%E9%A6%A5%E8%8E%89%E8%A6%81%E5%87%BA%E5%B1%80%EF%BC%9F%E5%AE%97%E5%BA%86%E5%90%8E%E8%83%9E%E5%BC%9F%E5%8F%91%E5%A3%B0%EF%BC%9A%E5%A5%BD%E4%BA%8B/" rel="next" title="娃哈哈突发！宗馥莉要出局？宗庆后胞弟发声：好事">
+      娃哈哈突发！宗馥莉要出局？宗庆后胞弟发声：好事 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%9Alean%EF%BC%9Ahttps-github-com-coolsnowwolf-lede"><span class="nav-number">1.</span> <span class="nav-text">-1：lean：https:&#x2F;&#x2F;github.com&#x2F;coolsnowwolf&#x2F;lede</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0%E3%80%81iStoreOS%EF%BC%9Ahttps-fw-koolcenter-com-iStoreOS"><span class="nav-number">2.</span> <span class="nav-text">0、iStoreOS：https:&#x2F;&#x2F;fw.koolcenter.com&#x2F;iStoreOS&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E9%AA%B7%E9%AB%85%E5%A4%B4%EF%BC%9Ahttps-github-com-DHDAXCW"><span class="nav-number">3.</span> <span class="nav-text">1、骷髅头：https:&#x2F;&#x2F;github.com&#x2F;DHDAXCW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81XiaoWanSM%EF%BC%9Ahttps-pan-wwang-pw"><span class="nav-number">4.</span> <span class="nav-text">2、XiaoWanSM：https:&#x2F;&#x2F;pan.wwang.pw&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81X-Wrt%EF%BC%9Ahttps-downloads-x-wrt-com-rom"><span class="nav-number">5.</span> <span class="nav-text">3、X-Wrt：https:&#x2F;&#x2F;downloads.x-wrt.com&#x2F;rom&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81SuLingGG%EF%BC%9Ahttps-openwrt-cc-releases-targets"><span class="nav-number">6.</span> <span class="nav-text">4、SuLingGG：https:&#x2F;&#x2F;openwrt.cc&#x2F;releases&#x2F;targets&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81Snail%EF%BC%9Ahttp-bbs-anmpserver-com"><span class="nav-number">7.</span> <span class="nav-text">5、Snail：http:&#x2F;&#x2F;bbs.anmpserver.com&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81OpenWrt%E5%9B%BA%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%9C%A8%E7%BA%BF%E5%AE%9A%E5%88%B6%E7%BC%96%E8%AF%91%EF%BC%9Ahttps-supes-top"><span class="nav-number">8.</span> <span class="nav-text">6、OpenWrt固件下载与在线定制编译：https:&#x2F;&#x2F;supes.top&#x2F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81esirPG%EF%BC%9Ahttps-drive-google-com-drive-folders-1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh"><span class="nav-number">9.</span> <span class="nav-text">7、esirPG：https:&#x2F;&#x2F;drive.google.com&#x2F;drive&#x2F;folders&#x2F;1dqNUrMf9n7i3y1aSh68U5Yf44WQ3KCuh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%81haiibo%EF%BC%9Ahttps-github-com-haiibo-OpenWrt"><span class="nav-number">10.</span> <span class="nav-text">8、haiibo：https:&#x2F;&#x2F;github.com&#x2F;haiibo&#x2F;OpenWrt</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Skyboy</p>
+  <div class="site-description" itemprop="description">我的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Skyboy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

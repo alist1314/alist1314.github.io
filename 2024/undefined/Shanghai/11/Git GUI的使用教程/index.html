@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog1314.us.kg","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="概述：git本身提供Git Bash和Git Gui两种模式，我更推荐使用Git Bash方式对Git进行操作， 但是对于大部分只是想简单地使用一下Git进行版本控制和团队开发的朋友而言，仍然更加钟情于可视化界面。 所以本文对Git官方自带的可视化工具Git Gui的使用进行介绍，尽量做到图文并茂，让所有初探Git的朋友都能够快速入门，使用Git进行项目开发。 作用:1、从服务器上克隆完整的Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git GUI的使用教程">
+<meta property="og:url" content="https://blog1314.us.kg/2024/undefined/Shanghai/11/Git%20GUI%E7%9A%84%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="我的天空">
+<meta property="og:description" content="概述：git本身提供Git Bash和Git Gui两种模式，我更推荐使用Git Bash方式对Git进行操作， 但是对于大部分只是想简单地使用一下Git进行版本控制和团队开发的朋友而言，仍然更加钟情于可视化界面。 所以本文对Git官方自带的可视化工具Git Gui的使用进行介绍，尽量做到图文并茂，让所有初探Git的朋友都能够快速入门，使用Git进行项目开发。 作用:1、从服务器上克隆完整的Git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109154109709-1446908828.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109154152090-1102426634.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109155000326-1191972725.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109163620592-95430829.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109165245558-680262023.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109165355171-1163861989.png">
+<meta property="article:published_time" content="2024-08-11T16:00:40.343Z">
+<meta property="article:modified_time" content="2024-08-11T16:01:48.953Z">
+<meta property="article:author" content="Skyboy">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109154109709-1446908828.png">
+
+<link rel="canonical" href="https://blog1314.us.kg/2024/undefined/Shanghai/11/Git%20GUI%E7%9A%84%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git GUI的使用教程 | 我的天空</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我的天空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我心飞翔</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog1314.us.kg/2024/undefined/Shanghai/11/Git%20GUI%E7%9A%84%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Skyboy">
+      <meta itemprop="description" content="我的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的天空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git GUI的使用教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-08-12 00:00:40 / 修改时间：00:01:48" itemprop="dateCreated datePublished" datetime="2024-08-12T00:00:40+08:00">2024-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>git本身提供Git Bash和Git Gui两种模式，我更推荐使用Git Bash方式对Git进行操作， 但是对于大部分只是想简单地使用一下Git进行版本控制和团队开发的朋友而言，仍然更加钟情于可视化界面。</p>
+<p>所以本文对Git官方自带的可视化工具Git Gui的使用进行介绍，尽量做到图文并茂，让所有初探Git的朋友都能够快速入门，使用Git进行项目开发。</p>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用:"></a>作用:</h2><p>1、从服务器上克隆完整的Git仓库（包括代码和版本信息）到单机上。</p>
+<p>2、在自己的机器上根据不同的开发目的，创建分支，修改代码。</p>
+<p>3、在单机上自己创建的分支上提交代码。</p>
+<p>4、在单机上合并分支。</p>
+<p>5、把服务器上最新版的代码fetch下来，然后跟自己的主分支合并。</p>
+<p>6.版本控制，可回滚</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="一、权限校验-SSH-Key："><a href="#一、权限校验-SSH-Key：" class="headerlink" title="一、权限校验-SSH Key："></a><strong>一、权限校验-SSH Key：</strong></h2><p><strong>1.复制客户端key：</strong></p>
+<p>  启动GUI，菜单-帮助，【Step1-创建密钥】Generate SSH KEY<br><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109154109709-1446908828.png"></p>
+<p>** 2.服务端添加可以**</p>
+<p> 在github的ssh key中添加可以key即可<br><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109154152090-1102426634.png"></p>
+<p><strong>PS</strong>：到这里提交就不用输密码了</p>
+<h2 id="二、克隆远程项目到本地："><a href="#二、克隆远程项目到本地：" class="headerlink" title="二、克隆远程项目到本地："></a>二、克隆远程项目到本地：</h2><p><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109155000326-1191972725.png"></p>
+<h2 id="三、上传到远程："><a href="#三、上传到远程：" class="headerlink" title="三、上传到远程："></a>三、上传到远程：</h2><p>#包含缓存改动，提交，上传</p>
+<p><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109163620592-95430829.png"></p>
+<p>PS：如果需要添加描述信息，就需要在操作前填写(提交时必须填写描述，其他操作可以不填写)</p>
+<h2 id="四、获取远程代码："><a href="#四、获取远程代码：" class="headerlink" title="四、获取远程代码："></a><strong>四、获取远程代码：</strong></h2><p>比如你在公司做好的东东，今夜难眠十分亢奋，回家准备继续搬砖，那咱们就在家里的电脑上，同上进行好各种安装配置账号，先把公司做好的东东嫩下来（不过公司是内网不可以，但是假如是Github上是可以的）</p>
+<p><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109165245558-680262023.png"></p>
+<p><img src="https://img2020.cnblogs.com/blog/784915/202011/784915-20201109165355171-1163861989.png"></p>
+<h3 id="相关连接："><a href="#相关连接：" class="headerlink" title="相关连接："></a>相关连接：</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/git-gui-window.html">https://www.runoob.com/w3cnote/git-gui-window.html</a> ………………………………………………………………………….git教程</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46514118/article/details/122529831">https://blog.csdn.net/qq_46514118&#x2F;article&#x2F;details&#x2F;122529831</a> ……………………………………………………………….<a target="_blank" rel="noopener" href="https://blog.csdn.net/xingxiupaioxue/article/details/125066433">ssh免密登录配置</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mansir123/article/details/121692125">https://blog.csdn.net/mansir123/article/details/121692125</a> …………………………………………………………………..git Gui汉化</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40283460/article/details/121968351">https://blog.csdn.net/weixin_40283460&#x2F;article&#x2F;details&#x2F;121968351</a> …………………………………………………………<strong>git stash暂存命令</strong></p>
+<p>原文地址：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chen-xia/articles/13948871.html">https://www.cnblogs.com/chen-xia/articles/13948871.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/09/Github%20Action%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" rel="prev" title="Github Action自动化部署Hexo博客和Qexo管理后台">
+      <i class="fa fa-chevron-left"></i> Github Action自动化部署Hexo博客和Qexo管理后台
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/27/%E6%97%A5%E6%9C%AC%E5%A4%AE%E8%A1%8C%E5%89%AF%E8%A1%8C%E9%95%BF%E5%86%8D%E5%BA%A6%E6%94%BE%E9%B9%B0/" rel="next" title="日本央行副行长再度放鹰：只要通胀符合预期就会加息">
+      日本央行副行长再度放鹰：只要通胀符合预期就会加息 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">概述：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">作用:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C-SSH-Key%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">一、权限校验-SSH Key：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%8B%E9%9A%86%E8%BF%9C%E7%A8%8B%E9%A1%B9%E7%9B%AE%E5%88%B0%E6%9C%AC%E5%9C%B0%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">二、克隆远程项目到本地：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%8A%E4%BC%A0%E5%88%B0%E8%BF%9C%E7%A8%8B%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">三、上传到远程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%8E%B7%E5%8F%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">四、获取远程代码：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E8%BF%9E%E6%8E%A5%EF%BC%9A"><span class="nav-number">7.1.</span> <span class="nav-text">相关连接：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Skyboy</p>
+  <div class="site-description" itemprop="description">我的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Skyboy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog1314.us.kg","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。 大佬的教程：https:&#x2F;&#x2F;blog.grin.cool&#x2F;blog&#x2F;Hexo-blog#&#x2F; 注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户 食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进 食">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度">
+<meta property="og:url" content="https://blog1314.us.kg/2024/undefined/Shanghai/04/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="我的天空">
+<meta property="og:description" content="今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。 大佬的教程：https:&#x2F;&#x2F;blog.grin.cool&#x2F;blog&#x2F;Hexo-blog#&#x2F; 注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户 食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进 食">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-04T15:57:11.996Z">
+<meta property="article:modified_time" content="2024-09-04T15:57:12.670Z">
+<meta property="article:author" content="Skyboy">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog1314.us.kg/2024/undefined/Shanghai/04/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度 | 我的天空</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">我的天空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">我心飞翔</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog1314.us.kg/2024/undefined/Shanghai/04/%E6%8F%90%E9%AB%98%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Skyboy">
+      <meta itemprop="description" content="我的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的天空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Hexo + GitHub + Netlify + Cloudflare提高博客的访问速度
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-04 23:57:11 / 修改时间：23:57:12" itemprop="dateCreated datePublished" datetime="2024-09-04T23:57:11+08:00">2024-09-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天也是看大佬的教程改了自己的配置发现访问速度确实快了许多，遂自己写一份教程加深一些理解。</p>
+<p>大佬的教程：<a target="_blank" rel="noopener" href="https://blog.grin.cool/blog/Hexo-blog#/">https://blog.grin.cool/blog/Hexo-blog#/</a></p>
+<p>注意本教程不适合纯 Hexo 小白（其实只要略微了解过一丢丢 Hexo 的就能看懂这篇教程），适合前期有过 GitHub pages 建立经验的进阶用户</p>
+<p>食用本教程若有进不去网站等情况请检查你的代理或者开魔法再进</p>
+<p>食用本教程请确保</p>
+<p>使用过 Hexo 等博客框架，略微了解使用方法<br>了解 GitHub，Git 的一些基本操作<br>了解 《提问的智慧》 以及 《如何像一个弱智一样提问》<br>在没有错误日志下诊断问题无异于闭眼开车<br>首先，本教程相对于 GitHub pages 的优势</p>
+<p>本方法不再局限于只有一个仓库可以生成静态页面<br>国内访问速度飞快<br>每月有 100G 流量带宽额度，300 分钟的构建时间，对于个人博客记录来讲完全够用甚至还余下很多<br>静态页面生成速度高于 GitHub pages 至少一倍<br>Netlify 可以启用免费的 TLS 证书,启用 HTTPS</p>
+<p>用久了 GitHub pages 发现，在国内的访问速度确实是有点慢，这是因为 GitHub pages 的服务器是在国外，所以在国内访问慢是正常的</p>
+<p>这个方法 不需要云服务器，不需要备案，全部免费</p>
+<p>也是看到了某大佬的博客才用这种方法 0 成本（时间成本不计入）提高博客访问速度</p>
+<p>需要注意的是，本方法与原先的 GitHub pages 部署方法并不同</p>
+<p>GitHub pages 是本地编译然后把编译好的前端页面推送到 GitHub repo</p>
+<p>这里采用的改进方法是直接把 Hexo 源码推送到 GitHub repo，用 Netlify 进行自动编译</p>
+<p>这里的好处就是</p>
+<p>不占用原来的 github.io 域名，也就是说这两个可以共存<br>源码直接在 GitHub repo 仓库里，不用担心数据丢失<br>如果换了电脑，可以直接从 GitHub 拉取源码在进行操作<br>废话不多说直接开始操作</p>
+<p>准备魔法工具（如已有可绕过）<br>工具介绍<br>这些你都不需要记，看看就行</p>
+<p>虚拟专用网络(Virtual Private Network，VPN)是专用网络的延伸，它包含了类似 Internet 的共享或公共网络链接。通过 VPN 可以以模拟点对点专用链接的方式通过共享或公共网络在两台计算机之间发送数据。</p>
+<p>如果说得再通俗一点，VPN 实际上是 “线路中的线路”，类型于城市大道上的 “公交专用线”，所不同的是，由 VPN 组成的 “线路” 并不是物理存在的，而是通过技术手段模拟出来，即是 “虚拟” 的。不过，这种虚拟的专用网络技术却可以在一条公用线路中为两台计算机建立一个逻辑上的专用 “通道”，它具有良好的保密和不受干扰性，使双方能进行自由而安全的点对点连接，因此被网络管理员们非常广泛地关注着。</p>
+<p>通过虚拟专用网，我们在家就可以轻松安全的登录到公司的内部网络上，这样可以实现我们在家办公的梦想了。</p>
+<p>账号注册<br>有了这个工具，你不只是能进 ai，还可以高速浏览 GitHub 等网站，以及…</p>
+<p>点击下方任意链接跳转注册界面 ↓（有进不去的换一个）</p>
+<p>链接 1          链接 2             链接 3          链接 4          链接 5         链接 6          链接 7</p>
+<p>输入邮箱密码注册账号，注册完成后登陆</p>
+<p>然后点击左侧购买订阅</p>
+<p>根据需求选择你合适的方案，如果你只是想尝鲜的话，毫无疑问，选最便宜的，能用就行</p>
+<p>我本人用的是 38.8 巨量不限时，推荐这个 ，大约可以用 2 年左右，平均下来大约 0.6&#x2F;天，而且是实打实的买多少用多少，不会出现超时浪费</p>
+<p>买完之后点击左上方仪表盘可以看到你的已订阅</p>
+<p>然后点击仪表盘下方的使用文档</p>
+<p>选择你的系统安装客户端</p>
+<p>安装完之后登陆客户端就可以看到这样</p>
+<p>连接节点<br>目前为止已经基本结束了，点击连接，点进去选个绿色的节点，点全局， 如果后续出现连接失败就换个节点</p>
+<p>GitHub 操作<br>首先进入 GitHub 建立一个空仓库</p>
+<p>这里仓库名随便写就行，不再被 github.io 限制</p>
+<p>我这里以 blog-Netlify-anzhiyu 为例，公有私有都行，你不想公开源码的话就私有</p>
+<p>直接 git clone 刚刚那个 repo</p>
+<p>PLAINTEXT<br>1<br>git clone 你的仓库地址<br>然后在目录下初始化 Hexo，由于不是新手向教程，这里不过多赘述</p>
+<p>有关于 Hexo 的安装可以看这位大佬的博客 <a target="_blank" rel="noopener" href="https://akilar.top/posts/6ef63e2d/#/">https://akilar.top/posts/6ef63e2d/#/</a></p>
+<p>初始化完成之后，安装你想安装的 Hexo 主题，我这里以 anzhiyu 主题为例</p>
+<p>下面是可供参考的 shell 脚本 一键安装 anzhiyu 主题.sh</p>
+<p>SHELL<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>printf “\033[32mINFO \033[0m 正在安装主题…\n”<br>npm install Hexo-theme-anzhiyu<br>printf “\033[32mINFO \033[0m 主题安装完成\n”</p>
+<p>printf “\033[32mINFO \033[0m 正在安装依赖…\n”<br>npm install Hexo-renderer-pug Hexo-renderer-stylus –save<br>printf “\033[32mINFO \033[0m 依赖安装完成\n”</p>
+<p>printf “\033[32mINFO \033[0m 正在停顿10s可供查看情况！无异常可Ctrl+C退出\n”<br>sleep 10s<br>主题安装完成后别忘了在你的_config.yml 文件里改掉主题，并且复制主题配置到博客根目录</p>
+<p>_config.anzhiyu.yml<br>_config.yml</p>
+<p>就是这俩文件</p>
+<p>然后改一下 package.json 里面 script 的内容，涉及到后面的参数填写</p>
+<p>PLAINTEXT<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>&#x2F;&#x2F; package.json<br>“scripts”: {<br>“build”: “Hexo generate”,<br>“clean”: “Hexo clean”,<br>“server”: “Hexo server”,<br>“netlify”: “npm run clean &amp;&amp; npm run build”<br>}<br>然后就可以推送到仓库了</p>
+<p>PLAINTEXT<br>1<br>2<br>3<br>git add .<br>git commit -m “deploy from Hexo-admin”<br>git push<br>可以用 Hexo 命令在本地部署一下看看有没有 bug</p>
+<p>SHELL<br>1<br>2<br>3<br>Hexo clean<br>Hexo generate<br>Hexo s<br>刷新一下看看有没有推送上去</p>
+<p>至此 GitHub 上的操作就告一段落了，继续往下走</p>
+<p>Netlify 操作<br>来到 Netlify 官网</p>
+<p>直接以 GitHub 注册便于导入仓库，然后点击继续，等待重定向</p>
+<p>然后点击左侧的 site，再点击 new site</p>
+<p>然后点击 Import an existing project</p>
+<p>然后 Deploywith GitHub</p>
+<p>然后找到刚刚创建的 repo</p>
+<p>配置就按照我这个来写，注意分支，如果你是 master 填 master，如果你是 main 就填 main</p>
+<p>然后点击 deploy</p>
+<p>创建完成之后就可以访问了</p>
+<p>如果空白或者是啥也没有，请检查主题配置，一般是主题配置问题</p>
+<p>点击左侧的 domain 可以配置域名</p>
+<p>点击 add 可以添加自己的域名，点击右侧红框里可以自定义 Netlify 里的子域名</p>
+<p>配置域名以及 cloudflare 的 DNS 配置<br>从第四步开始就需要域名了，没有自己私人域名的可以不用看了</p>
+<p>这里以阿里云域名控制台为例</p>
+<p>首先进控制台 CNAME 指向 Netlify 的域名</p>
+<p>然后进入 cloudflare 官网</p>
+<p>添加站点，把你自己的域名填上，注意不要带 www.，填纯域名</p>
+<p>比如 <a target="_blank" rel="noopener" href="http://www.w1ndys.top/">www.w1ndys.top</a> 只填 w1ndys.top 就可以</p>
+<p>填写之后会看到让你改 DNS 服务器，我这里已经改过了</p>
+<p>这里就去控制台把域名的 DNS 服务器改掉就可以了</p>
+<p>修改之后会等待一段时间审查，一般十分钟左右，但不会超过 24 小时</p>
+<p>审核完之后如图</p>
+<p>然后我们进入到 DNS 记录</p>
+<p>这里就根据你自己的域名，改成形如我这样的就可以了</p>
+<p>到这里已经结束了。</p>
+<p>等待一段时间，访问你自己的域名试试</p>
+<p>作者: W1ndys<br>链接: <a target="_blank" rel="noopener" href="https://blog.w1ndys.top/posts/cb064b79.html#%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E4%BB%A5%E5%8F%8A-cloudflare-%E7%9A%84-dns-%E9%85%8D%E7%BD%AE">https://blog.w1ndys.top/posts/cb064b79.html#%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E4%BB%A5%E5%8F%8A-cloudflare-%E7%9A%84-dns-%E9%85%8D%E7%BD%AE</a><br>来源: W1ndysの小屋<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/27/%E6%97%A5%E6%9C%AC%E5%A4%AE%E8%A1%8C%E5%89%AF%E8%A1%8C%E9%95%BF%E5%86%8D%E5%BA%A6%E6%94%BE%E9%B9%B0/" rel="prev" title="日本央行副行长再度放鹰：只要通胀符合预期就会加息">
+      <i class="fa fa-chevron-left"></i> 日本央行副行长再度放鹰：只要通胀符合预期就会加息
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/undefined/Shanghai/04/%E5%85%A8%E7%90%83%E5%B8%82%E5%9C%BA%E9%A3%8E%E6%9A%B4%E5%86%8D%E8%B5%B7/" rel="next" title=" 全球市场风暴再起，历史性时刻逼近">
+       全球市场风暴再起，历史性时刻逼近 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Skyboy</p>
+  <div class="site-description" itemprop="description">我的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Skyboy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
