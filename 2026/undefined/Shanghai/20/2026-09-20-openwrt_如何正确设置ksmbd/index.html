@@ -1,0 +1,622 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="skyboy">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这篇本来是一篇长文的一部分，后来发现很多人配置ksmbd遇到问题，所以独立拿出来做为一篇，方便搜索保存查询 （附挂载指南）为了照顾不熟悉linux的用户，先说如何通过luci管理页挂载硬盘先通过ssh登录确定系统正确识别到硬盘（用 disk -l  或 lsusb，另外用lsusb -t 查看usb速率是否正常。如果系统里没有lsusb工具，请在luci界面 系统&#x3D;》软件包 里安装usb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openwrt 如何正确设置ksmbd">
+<meta property="og:url" content="https://godlie.freemyip.com/2026/undefined/Shanghai/20/2026-09-20-openwrt_%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E8%AE%BE%E7%BD%AEksmbd/index.html">
+<meta property="og:site_name" content="我的天空">
+<meta property="og:description" content="这篇本来是一篇长文的一部分，后来发现很多人配置ksmbd遇到问题，所以独立拿出来做为一篇，方便搜索保存查询 （附挂载指南）为了照顾不熟悉linux的用户，先说如何通过luci管理页挂载硬盘先通过ssh登录确定系统正确识别到硬盘（用 disk -l  或 lsusb，另外用lsusb -t 查看usb速率是否正常。如果系统里没有lsusb工具，请在luci界面 系统&#x3D;》软件包 里安装usb">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-20T10:28:46.000Z">
+<meta property="article:modified_time" content="2026-09-20T10:28:46.000Z">
+<meta property="article:author" content="Skyboy">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>openwrt 如何正确设置ksmbd - 我的天空</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godlie.freemyip.com","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":" ","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 50vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的天空</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">openwrt 如何正确设置ksmbd</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-20 18:28" pubdate>
+          2026年9月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">openwrt 如何正确设置ksmbd</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇本来是一篇长文的一部分，后来发现很多人配置ksmbd遇到问题，所以独立拿出来做为一篇，方便搜索保存查询</p>
+<p>（附挂载指南）<br>为了照顾不熟悉linux的用户，先说如何通过luci管理页挂载硬盘<br>先通过ssh登录确定系统正确识别到硬盘（用 disk -l  或 lsusb，另外用lsusb -t 查看usb速率是否正常。如果系统里没有lsusb工具，请在luci界面 系统&#x3D;》软件包 里安装usbutils,并检查kmod-usb-storage-uas，block-mount，luci-app-ksmbd是否已安装）<br>在luci界面  系统&#x3D;》挂载点  找到 “配置存储设备挂载到文件系统中的位置和参数”栏 点添加，依次 勾选启用，在uuid栏选定你要挂的硬盘，然后填写挂载点（比如 “&#x2F;mnt&#x2F;sda1”）<br>先不急点保存，再在高级设置里的挂载选项中填入“iocharset&#x3D;utf8”（这是为了更好支持中文），再勾选文件系统检查（虽然现在ntfs3不支持这个功能），然后点保存，再应用。<br>对于打算用匿名登录的，只需到 luci界面 &#x3D;》服务网络共享，在共享目录栏填写路径和名称，勾选 可浏览和允许匿名用户就完成了，下面的内容可以掠过。<br>对于需要密码验证登陆的，请继续》》》</p>
+<p>在luci界面 系统&#x3D;》软件包 里安装 ksmbd-utils，然后ssh登录，输入 “ksmbd.adduser -a 你想用户名 -p 你想设置的密码”，这样你就创建了ksmbd内的用户。<br>接下去回到luci界面，勾选强制 root（意思是，刚才创建的ksmbd用户登录时，ksmbd将以系统root用户身份来操作文件），这里特别注意把“允许用户”框框空着不要填乱七八糟的东西。<br>配置完的状态应该如下图</p>
+<p>现在你可以用刚才创建的ksmbd账户登录共享文件夹了。（这边只介绍最基本设置，其他花式操作参见&#x2F;etc&#x2F;ksmbd&#x2F;configuration.txt 和GitHub - namjaejeon&#x2F;ksmbd-tools: ksmbd kernel server userspace utilities）</p>
+<p>当然此时你可能需要输入路由器ip地址方式来访问共享文件夹，如果你对此不满意或者windows经常提示多个用户同时访问的错误，请继续看。<br>首先确定wsdd2这个包已经安装了，然后用ssh登录路由器执行 “chmod ugo+x &#x2F;etc&#x2F;rc.local”，再到 系统&#x3D;》启动&#x3D;》本地启动脚本 添加 “sleep 90”  和  “&#x2F;etc&#x2F;init.d&#x2F;wsdd2 restart”两行内容如图,保存以后重启路由器，片刻后就能在网上邻居里看到你的路由器了。(这样做的原理是，网上邻居发现依赖wsdd2，可系统启动wsdd2时，ksmbd还没准备好，所以我们在路由器启动完成后再重启wsdd2一次，让它真起作用)  （注：需要在手机平板电视的设备上自动发现共享目录的，可以尝试安装ksmbd-avahi-service，因为那些设备可能需要DNS-SD来找到共享设备，这里不展开，op没有需要也没尝试过）</p>
+<p>接下去讲samba读写性能优化（如果你用电脑访问，用默认设置就可以，不需要优化，此处针对性能较差的移动端文件管理器）<br>在编辑模板里把 smb2 max read&#x2F;write&#x2F;trans 都增加到1024K， cache 都改成yes，如图</p>
+<p>通过有线从共享的U盘下载文件时，浏览互联网慢或者打不开？<br>此时你遇到的是千兆网的瓶颈，从共享的U盘下载大量文件时，建议使用ftp，并在vsftp（ftp 服务器）设置中的虚拟用户列表里找到正在使用的的用户，点 编辑 ， 修改最大传输速率130000000，这样下载速度限制在100MB&#x2F;s，留了几十兆带宽足够上网了。</p>
+<p>通过无线下载共享的nvme固态盘文件时，路由器死机或重启？<br>这是因为nvme固态盘耗电非常高，看看给路由器换个大的电源会不会改善。如果问题依旧，可能路由器主板先天供电余量较少，就算你配5A的电源也没用。最容易的解决方法就是限制无线频宽到40mhz（这样wifi部分用电就少了，余量可以用到nvme盘上。同样的思路，你可以用两个无线路由器，一个做ap或路由，另一个关闭无线和nat做纯nas，这样不会供电不足）</p>
+<p>异常断电重启后，看不到共享盘？<br>异常断电，共享盘被标记为脏盘，系统默认不会自动加载。建议使用文件系统对应的系统修复工具扫盘后再加载。对于暂时没有对应文件系统工具的，比如ntfs3驱动，建议将盘移到电脑上跑一遍修复工具，若受条件限制，则可选择在磁盘加载选项里加上force参数，但是这样做有数据损坏的风险。</p>
+<p>原文地址：<br><a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-8337436-1-1.html">https://www.right.com.cn/forum/thread-8337436-1-1.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="category-chain-item">默认分类</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/undefined/Shanghai/13/2026-11-13-_700000%25%20G%EF%BF%BD%EF%BF%BD%1A%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD6%EF%BF%BD:/" title="700000%传奇终结：黄仁勋黯然离场">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">700000%传奇终结：黄仁勋黯然离场</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/undefined/Shanghai/14/%E5%88%9B%E6%96%B0%E8%8D%AF%E4%BB%B7%E6%A0%BC%E5%BD%A2%E6%88%90%E6%9C%BA%E5%88%B6%E6%9C%89%E5%8F%98/" title="创新药价格形成机制有变！国办发文，对药品市场有何影响？">
+                        <span class="hidden-mobile">创新药价格形成机制有变！国办发文，对药品市场有何影响？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://cdn.staticfile.org/waline/2.15.5/waline.min.css')
+      Fluid.utils.createScript('https://cdn.staticfile.org/waline/2.15.5/waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://w.skyboy.cc.cd","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://gcore.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
